@@ -185,38 +185,32 @@
     </form>
 
     <!-- REGISTER FORM -->
-    <form id="registerForm" action="../backend/register.php" method="POST">
-      <label for="role">I am a</label>
-      <select id="role" required>
-        <option value="donor">Donor</option>
-        <option value="hospital">Hospital Representative</option>
-        <option value="staff">Blood Bank Staff</option>
-      </select>
+    <form id="registerForm" method="POST">
+  <label for="role">I am a</label>
+  <select id="role" name="role" required>
+    <option value="donor">Donor</option>
+    <option value="hospital">Hospital Representative</option>
+    <option value="staff">Blood Bank Staff</option>
+  </select>
 
-      <label>Full Name</label>
-      <input type="text" id="fullname" placeholder="John Doe" required />
+  <label>Full Name</label>
+  <input type="text" id="fullname" name="full_name" placeholder="John Doe" required />
 
-      <label>Email</label>
-      <input type="email" id="email" placeholder="you@example.com" required />
+  <label>Email</label>
+  <input type="email" id="email" name="email" placeholder="you@example.com" required />
 
-      <label>Phone Number</label>
-      <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required />
+  <label>Phone Number</label>
+  <input type="tel" id="phone" name="phone" placeholder="+91 0000000000" required />
 
-      <label>Password</label>
-      <input type="password" id="password" placeholder="********" required />
+  <label>Password</label>
+  <input type="password" id="password" name="password" placeholder="********" required />
 
-      <label>Confirm Password</label>
-      <input type="password" id="confirmPassword" placeholder="********" required />
+  <label>Confirm Password</label>
+  <input type="password" id="confirmPassword" name="confirm_password" placeholder="********" required />
 
-      <button type="submit" class="btn">Create Account</button>
+  <button type="submit" class="btn">Create Account</button>
+</form>
 
-      <small>
-        By registering, you agree to our 
-        <a href="#">Terms of Service</a> and 
-        <a href="#">Privacy Policy</a>.
-      </small>
-    </form>
-  </div>
 
   <script>
     const signInTab = document.getElementById("signInTab");
