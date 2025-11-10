@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blood Donation Management - Auth</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #fff;
+      width: 420px;
+      padding: 2rem 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      background: linear-gradient(145deg, #ff4d4d, #ff0000);
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 12px;
+    }
+
+    .logo::before {
+      content: "💧";
+      font-size: 28px;
+      color: #fff;
+    }
+
+    h2 {
+      margin: 8px 0 6px;
+      color: #111827;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background: #f3f4f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 0.7rem 0;
+      cursor: pointer;
+      font-weight: 600;
+      background: none;
+      border: none;
+      color: #6b7280;
+      transition: 0.3s ease;
+    }
+
+    .tab.active {
+      color: #111827;
+      background: #fff;
+      border-bottom: 3px solid #ff3b3b;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+      animation: fadeForm 0.3s ease;
+    }
+
+    @keyframes fadeForm {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    form.active {
+      display: flex;
+    }
+
+    label {
+      font-weight: 500;
+      color: #374151;
+      font-size: 0.9rem;
+    }
+
+    select, input {
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 0.95rem;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input:focus {
+      border-color: #ff3b3b;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #ff3b3b, #3b82f6);
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.02);
+    }
+
+    small {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    small a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo"></div>
+    <h2>Welcome to BloodBank</h2>
+    <p>Sign in to your account or create a new one</p>
+
+    <div class="tabs">
+      <button class="tab active" id="signInTab">Sign In</button>
+      <button class="tab" id="registerTab">Register</button>
+    </div>
+
+    <!-- SIGN IN FORM -->
+    <form id="signInForm" class="active">
+      <label for="signin-role">I am a</label>
+      <select id="signin-role" required>
+        <option value="donor">Donor</option>
+        <option value="hospital">Hospital Representative</option>
+        <option value="staff">Blood Bank Staff</option>
+      </select>
+
+      <label>Email</label>
+      <input type="email" id="signin-email" placeholder="you@example.com" required />
+
+      <label>Password</label>
+      <input type="password" id="signin-password" placeholder="********" required />
+
+      <button type="submit" class="btn">Sign In</button>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form id="registerForm">
+      <label for="role">I am a</label>
+      <select id="role" required>
+        <option value="donor">Donor</option>
+        <option value="hospital">Hospital Representative</option>
+        <option value="staff">Blood Bank Staff</option>
+      </select>
+
+      <label>Full Name</label>
+      <input type="text" id="fullname" placeholder="John Doe" required />
+
+      <label>Email</label>
+      <input type="email" id="email" placeholder="you@example.com" required />
+
+      <label>Phone Number</label>
+      <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required />
+
+      <label>Password</label>
+      <input type="password" id="password" placeholder="********" required />
+
+      <label>Confirm Password</label>
+      <input type="password" id="confirmPassword" placeholder="********" required />
+
+      <button type="submit" class="btn">Create Account</button>
+
+      <small>
+        By registering, you agree to our 
+        <a href="#">Terms of Service</a> and 
+        <a href="#">Privacy Policy</a>.
+      </small>
+    </form>
+  </div>
+
+  <script>
+    const signInTab = document.getElementById("signInTab");
+    const registerTab = document.getElementById("registerTab");
+    const signInForm = document.getElementById("signInForm");
+    const registerForm = document.getElementById("registerForm");
+
+    // Switch tabs
+    signInTab.addEventListener("click", () => {
+      signInTab.classList.add("active");
+      registerTab.classList.remove("active");
+      signInForm.classList.add("active");
+      registerForm.classList.remove("active");
+    });
+
+    registerTab.addEventListener("click", () => {
+      registerTab.classList.add("active");
+      signInTab.classList.remove("active");
+      registerForm.classList.add("active");
+      signInForm.classList.remove("active");
+    });
+
+    // Register form validation
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const pass = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+
+      if (pass !== confirm) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const user = {
+        role: document.getElementById("role").value,
+        name: document.getElementById("fullname").value,
+        email: document.getElementById("email").value,
+      };
+
+      alert(`✅ Account created successfully for ${user.name} as ${user.role}!`);
+      registerForm.reset();
+    });
+
+    // Sign-in simple handler
+    signInForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signin-email").value;
+      const role = document.getElementById("signin-role").value;
+
+      alert(`🔓 Signed in successfully as ${role} (${email})`);
+      signInForm.reset();
+    });
+  </script>
+</body>
+</html>
