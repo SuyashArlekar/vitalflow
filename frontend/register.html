@@ -185,7 +185,7 @@
     </form>
 
     <!-- REGISTER FORM -->
-    <form id="registerForm">
+    <form id="registerForm" action="../backend/register.php" method="POST">
       <label for="role">I am a</label>
       <select id="role" required>
         <option value="donor">Donor</option>
@@ -239,26 +239,37 @@
       signInForm.classList.remove("active");
     });
 
-    // Register form validation
-    registerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const pass = document.getElementById("password").value;
-      const confirm = document.getElementById("confirmPassword").value;
+// Register form validation
+registerForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-      if (pass !== confirm) {
-        alert("Passwords do not match!");
-        return;
-      }
+  const pass = document.getElementById("password").value;
+  const confirm = document.getElementById("confirmPassword").value;
 
-      const user = {
-        role: document.getElementById("role").value,
-        name: document.getElementById("fullname").value,
-        email: document.getElementById("email").value,
-      };
+  if (pass !== confirm) {
+    alert("❌ Passwords do not match!");
+    return;
+  }
 
-      alert(`✅ Account created successfully for ${user.name} as ${user.role}!`);
-      registerForm.reset();
+  // Prepare form data
+  const formData = new FormData(registerForm);
+
+  try {
+    // Send to PHP backend
+    const response = await fetch("../backend/register.php", {
+      method: "POST",
+      body: formData
     });
+
+    const result = await response.text();
+    alert(result); // Show message from PHP
+    registerForm.reset();
+  } catch (error) {
+    console.error(error);
+    alert("⚠️ Something went wrong. Please try again.");
+  }
+});
+
 
     // Sign-in simple handler
     signInForm.addEventListener("submit", (e) => {
