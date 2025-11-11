@@ -167,20 +167,19 @@
     </div>
 
     <!-- SIGN IN FORM -->
-    <form id="signInForm" class="active">
+    <form id="signInForm" class="active" method = "POST">
       <label for="signin-role">I am a</label>
-      <select id="signin-role" required>
+      <select id="signin-role" name = "role"required>
         <option value="donor">Donor</option>
         <option value="hospital">Hospital Representative</option>
         <option value="staff">Blood Bank Staff</option>
       </select>
 
       <label>Email</label>
-      <input type="email" id="signin-email" placeholder="you@example.com" required />
+      <input type="email" id="signin-email" name="email" placeholder="you@example.com" required />
 
       <label>Password</label>
-      <input type="password" id="signin-password" placeholder="********" required />
-
+      <input type="password" id="signin-password" name="password" placeholder="********" required />
       <button type="submit" class="btn">Sign In</button>
     </form>
 
@@ -213,67 +212,81 @@
 
 
   <script>
-    const signInTab = document.getElementById("signInTab");
-    const registerTab = document.getElementById("registerTab");
-    const signInForm = document.getElementById("signInForm");
-    const registerForm = document.getElementById("registerForm");
+  const signInTab = document.getElementById("signInTab");
+  const registerTab = document.getElementById("registerTab");
+  const signInForm = document.getElementById("signInForm");
+  const registerForm = document.getElementById("registerForm");
 
-    // Switch tabs
-    signInTab.addEventListener("click", () => {
-      signInTab.classList.add("active");
-      registerTab.classList.remove("active");
-      signInForm.classList.add("active");
-      registerForm.classList.remove("active");
-    });
+  // Switch tabs
+  signInTab.addEventListener("click", () => {
+    signInTab.classList.add("active");
+    registerTab.classList.remove("active");
+    signInForm.classList.add("active");
+    registerForm.classList.remove("active");
+  });
 
-    registerTab.addEventListener("click", () => {
-      registerTab.classList.add("active");
-      signInTab.classList.remove("active");
-      registerForm.classList.add("active");
-      signInForm.classList.remove("active");
-    });
+  registerTab.addEventListener("click", () => {
+    registerTab.classList.add("active");
+    signInTab.classList.remove("active");
+    registerForm.classList.add("active");
+    signInForm.classList.remove("active");
+  });
 
-// Register form validation
-registerForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  // ✅ Register form submission
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const pass = document.getElementById("password").value;
-  const confirm = document.getElementById("confirmPassword").value;
+    const pass = document.getElementById("password").value;
+    const confirm = document.getElementById("confirmPassword").value;
 
-  if (pass !== confirm) {
-    alert("❌ Passwords do not match!");
-    return;
-  }
+    if (pass !== confirm) {
+      alert("❌ Passwords do not match!");
+      return;
+    }
 
-  // Prepare form data
-  const formData = new FormData(registerForm);
+    const formData = new FormData(registerForm);
 
-  try {
-    // Send to PHP backend
-    const response = await fetch("../backend/register.php", {
-      method: "POST",
-      body: formData
-    });
+    try {
+      const response = await fetch("../backend/register.php", {
+        method: "POST",
+        body: formData,
+      });
 
-    const result = await response.text();
-    alert(result); // Show message from PHP
-    registerForm.reset();
-  } catch (error) {
-    console.error(error);
-    alert("⚠️ Something went wrong. Please try again.");
-  }
-});
+      const result = await response.text();
+      alert(result); // PHP message
+      registerForm.reset();
+    } catch (error) {
+      console.error(error);
+      alert("⚠️ Something went wrong. Please try again.");
+    }
+  });
 
+  // ✅ Sign-in form submission (connects to backend/login.php)
+  signInForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    // Sign-in simple handler
-    signInForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("signin-email").value;
-      const role = document.getElementById("signin-role").value;
+    const formData = new FormData(signInForm);
 
-      alert(`🔓 Signed in successfully as ${role} (${email})`);
+    try {
+      const response = await fetch("../backend/login.php", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.text();
+      alert(result); // Show PHP response
+
+      if (result.includes("Welcome Donor")) {
+        // Optional: redirect to dashboard
+        window.location.href = "donor_profile.html";
+      }
+
       signInForm.reset();
-    });
-  </script>
+    } catch (error) {
+      console.error(error);
+      alert("⚠️ Server error! Please try again later.");
+    }
+  });
+</script>
 </body>
 </html>
