@@ -171,8 +171,6 @@
       <label for="signin-role">I am a</label>
       <select id="signin-role" name = "role"required>
         <option value="donor">Donor</option>
-        <option value="hospital">Hospital Representative</option>
-        <option value="staff">Blood Bank Staff</option>
       </select>
 
       <label>Email</label>
@@ -185,13 +183,11 @@
 
     <!-- REGISTER FORM -->
     <form id="registerForm" method="POST">
-  <label for="role">I am a</label>
-  <select id="role" name="role" required>
-    <option value="donor">Donor</option>
-    <option value="hospital">Hospital Representative</option>
-    <option value="staff">Blood Bank Staff</option>
-  </select>
 
+      <label for="register-role">I want to register as a</label>
+      <select id="register-role" name="role" required>
+        <option value="donor">Donor</option>
+      </select>
   <label>Full Name</label>
   <input type="text" id="fullname" name="full_name" placeholder="John Doe" required />
 
