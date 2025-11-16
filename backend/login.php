@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            session_start();
             $_SESSION['user'] = $full_name;
             $_SESSION['role'] = $role;
+            $_SESSION['email'] = $email;
 
             if ($role === 'donor') {
                 echo "Welcome Donor";

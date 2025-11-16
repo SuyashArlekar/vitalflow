@@ -258,7 +258,7 @@
       <a href="#">Contact</a>
     </nav>
     <div>
-      <button class="btn">Donate Now</button>
+      <button class="btn" onclick="window.location.href='donationcamps.html'">Donate Now</button>
     </div>
   </header>
 
@@ -331,8 +331,86 @@
   </section>
 
   <script>
-    // Future dynamic JS can go here (e.g., fetch profile from database)
-    console.log("BloodBank Donor Profile loaded successfully.");
+    // Fetch and display user profile data
+    async function loadUserProfile() {
+      try {
+        const response = await fetch('../backend/get_user_profile.php', {
+          method: 'GET',
+          credentials: 'include' // Include session cookies
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            alert('Please login to view your profile');
+            window.location.href = 'register.html';
+            return;
+          }
+          throw new Error('Failed to load profile');
+        }
+
+        const data = await response.json();
+
+        if (data.success && data.user) {
+          const user = data.user;
+          const stats = data.stats || {};
+          const history = data.donation_history || [];
+
+          // Update profile header
+          document.querySelector('.avatar').textContent = user.initials || 'U';
+          document.querySelector('.info-text h2').textContent = user.full_name || 'User';
+          
+          // Update profile details
+          const infoText = document.querySelector('.info-text');
+          infoText.innerHTML = `
+            <h2>${user.full_name || 'User'}</h2>
+            <p>📧 ${user.email || 'N/A'}</p>
+            <p>📞 ${user.phone || 'N/A'}</p>
+          `;
+
+          // Update stats
+          const statCards = document.querySelectorAll('.stat-card');
+          if (statCards.length >= 5) {
+            statCards[0].querySelector('h3').textContent = stats.total_donations || 0;
+            statCards[1].querySelector('h3').textContent = stats.lives_impacted || 0;
+            statCards[2].querySelector('h3').textContent = (stats.total_volume || 0) + ' ml';
+            statCards[3].querySelector('h3').textContent = stats.last_donation || 'N/A';
+            statCards[4].querySelector('h3').textContent = stats.next_eligible || 'N/A';
+          }
+
+          // Update donation history
+          const historySection = document.querySelector('.history');
+          if (history.length > 0) {
+            let historyHTML = '<h3>❤️ Complete Donation History</h3><p>All your blood donation records</p>';
+            history.forEach(donation => {
+              const donationDate = new Date(donation.donation_date).toLocaleDateString();
+              historyHTML += `
+                <div class="donation-entry">
+                  <strong>${donation.location || donation.camp_name || 'Blood Bank'}</strong>
+                  <span class="status">Completed</span>
+                  <div class="entry-info">
+                    📅 ${donationDate}<br>
+                    🩸 ${donation.blood_type || 'N/A'} • ${donation.volume || 500} ml<br>
+                    ${donation.certificate ? `Certificate: ${donation.certificate}` : ''}
+                  </div>
+                </div>
+              `;
+            });
+            historySection.innerHTML = historyHTML;
+          } else {
+            historySection.innerHTML = `
+              <h3>❤️ Complete Donation History</h3>
+              <p>You haven't made any donations yet. Start your journey today!</p>
+            `;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        alert('Failed to load profile. Please try again later.');
+      }
+    }
+
+    // Load profile when page loads
+    document.addEventListener('DOMContentLoaded', loadUserProfile);
   </script>
 </body>
 </html>
