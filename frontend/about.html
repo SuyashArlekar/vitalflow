@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | BloodBank</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      color: #222;
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #d81b60;
+    }
+
+    .navbar ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #333;
+      transition: 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #d81b60;
+    }
+
+    .btn-primary, .btn-outline {
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-primary {
+      background: #d81b60;
+      color: white;
+    }
+
+    .btn-outline {
+      background: white;
+      color: #d81b60;
+      border: 2px solid #d81b60;
+    }
+
+    .btn-outline:hover {
+      background: #d81b60;
+      color: white;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #d81b60 0%, #1976d2 100%);
+      color: white;
+      padding: 4rem 5%;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 5%;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      color: #d81b60;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .section p {
+      color: #555;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    /* Mission & Vision */
+    .mission-vision {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: #d81b60;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      color: #666;
+    }
+
+    /* Values */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .value-item {
+      text-align: center;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      border-radius: 10px;
+    }
+
+    .value-item .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .value-item h3 {
+      color: #d81b60;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      padding: 3rem 5%;
+      background: #f9f9f9;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+
+    .stats div {
+      text-align: center;
+      margin: 1rem;
+    }
+
+    .stats h2 {
+      color: #d81b60;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stats p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    /* Team Section */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .team-member {
+      text-align: center;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .team-member .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d81b60, #1976d2);
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: white;
+    }
+
+    .team-member h3 {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .team-member p {
+      color: #d81b60;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      background: #f2f2f2;
+      padding: 2rem 5%;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin: 0.3rem 0;
+    }
+
+    .footer-links h4 {
+      margin-bottom: 0.5rem;
+    }
+
+    .copyright {
+      text-align: center;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .navbar ul {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar will be loaded here -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>About BloodBank</h1>
+    <p>Connecting hearts, saving lives. We are dedicated to building a robust blood donation network that ensures no patient goes without the life-saving blood they need.</p>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Our Story -->
+    <section class="section">
+      <h2>Our Story</h2>
+      <p>
+        BloodBank was founded with a simple yet powerful mission: to bridge the gap between blood donors and those in need. 
+        What started as a small initiative has grown into a comprehensive blood management system that connects thousands of 
+        donors, hospitals, and blood banks across the region.
+      </p>
+      <p>
+        We recognized the critical challenges in blood donation management - from finding donors during emergencies to 
+        maintaining adequate blood inventory. Our platform addresses these challenges by providing a seamless, technology-driven 
+        solution that makes blood donation accessible, trackable, and efficient.
+      </p>
+      <p>
+        Today, we're proud to be part of a life-saving network that has facilitated thousands of successful blood donations 
+        and helped save countless lives. Every drop counts, and we're committed to ensuring that every patient who needs 
+        blood can receive it in time.
+      </p>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="section">
+      <h2>Our Mission & Vision</h2>
+      <div class="mission-vision">
+        <div class="card">
+          <h3>🎯 Our Mission</h3>
+          <p>
+            To create a reliable, efficient, and accessible blood donation ecosystem that ensures timely availability 
+            of blood for all patients in need, while promoting a culture of regular voluntary blood donation.
+          </p>
+        </div>
+        <div class="card">
+          <h3>👁️ Our Vision</h3>
+          <p>
+            To become the leading blood management platform that eliminates blood shortages and creates a self-sustaining 
+            network of donors, ensuring that no life is lost due to unavailability of blood.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="section">
+      <h2>Our Core Values</h2>
+      <div class="values-grid">
+        <div class="value-item">
+          <div class="icon">❤️</div>
+          <h3>Compassion</h3>
+          <p>We care deeply about every life we touch and every donor we serve.</p>
+        </div>
+        <div class="value-item">
+          <div class="icon">🔒</div>
+          <h3>Trust</h3>
+          <p>We maintain the highest standards of safety, security, and transparency.</p>
+        </div>
+        <div class="value-item">
+          <div class="icon">⚡</div>
+          <h3>Efficiency</h3>
+          <p>We streamline processes to ensure quick response times in emergencies.</p>
+        </div>
+        <div class="value-item">
+          <div class="icon">🤝</div>
+          <h3>Collaboration</h3>
+          <p>We work together with hospitals, donors, and communities to save lives.</p>
+        </div>
+        <div class="value-item">
+          <div class="icon">🌟</div>
+          <h3>Excellence</h3>
+          <p>We continuously improve our services to provide the best experience.</p>
+        </div>
+        <div class="value-item">
+          <div class="icon">🌍</div>
+          <h3>Impact</h3>
+          <p>We measure success by the lives saved and communities strengthened.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="stats">
+      <div>
+        <h2>10000+</h2>
+        <p>Active Donors</p>
+      </div>
+      <div>
+        <h2>500+</h2>
+        <p>Blood Units Available</p>
+      </div>
+      <div>
+        <h2>200+</h2>
+        <p>Hospitals Connected</p>
+      </div>
+      <div>
+        <h2>5000+</h2>
+        <p>Lives Saved</p>
+      </div>
+    </section>
+
+    <!-- Our Team -->
+    <section class="section">
+      <h2>Our Team</h2>
+      <p style="text-align: center; margin-bottom: 2rem;">
+        Meet the dedicated professionals working behind the scenes to make our mission possible.
+      </p>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="avatar">👨‍⚕️</div>
+          <h3>Dr. Sarah Johnson</h3>
+          <p>Medical Director</p>
+        </div>
+        <div class="team-member">
+          <div class="avatar">💻</div>
+          <h3>Michael Chen</h3>
+          <p>Technology Lead</p>
+        </div>
+        <div class="team-member">
+          <div class="avatar">📊</div>
+          <h3>Emily Rodriguez</h3>
+          <p>Operations Manager</p>
+        </div>
+        <div class="team-member">
+          <div class="avatar">🤝</div>
+          <h3>David Kumar</h3>
+          <p>Community Outreach</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="section">
+      <h2>Why Choose BloodBank?</h2>
+      <div class="mission-vision">
+        <div class="card">
+          <h3>🏥 Hospital Integration</h3>
+          <p>
+            Seamless integration with hospitals allows for real-time blood requests and instant availability updates, 
+            ensuring patients receive blood when they need it most.
+          </p>
+        </div>
+        <div class="card">
+          <h3>📱 Easy Access</h3>
+          <p>
+            Our user-friendly platform makes it simple for donors to find camps, book appointments, and track their 
+            donation history all in one place.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🔔 Real-Time Updates</h3>
+          <p>
+            Get instant notifications about blood requests, camp schedules, and inventory updates to stay informed 
+            and respond quickly to emergencies.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🛡️ Safety First</h3>
+          <p>
+            We follow strict safety protocols and maintain comprehensive donor records to ensure the highest standards 
+            of blood safety and quality.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3>🩸 BloodBank</h3>
+        <p>Connecting donors, hospitals, and blood banks to save lives.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="homepage.html" style="color: #555; text-decoration: none;">Home</a></li>
+          <li><a href="donationcamps.html" style="color: #555; text-decoration: none;">Donation Camps</a></li>
+          <li><a href="about.html" style="color: #555; text-decoration: none;">About</a></li>
+          <li><a href="contact_page.html" style="color: #555; text-decoration: none;">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li>Blood Types Guide</li>
+          <li>Donation FAQs</li>
+          <li>Health Requirements</li>
+          <li>Privacy Policy</li>
+        </ul>
+      </div>
+    </div>
+    <p class="copyright">© 2025 BloodBank Management System. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Animated counters in the stats section
+    const counters = document.querySelectorAll(".stats h2");
+    counters.forEach(counter => {
+      let count = 0;
+      const target = +counter.textContent.replace(/\D/g, '');
+      const update = () => {
+        if (count < target) {
+          count += Math.ceil(target / 100);
+          counter.textContent = count + "+";
+          requestAnimationFrame(update);
+        } else {
+          counter.textContent = target + "+";
+        }
+      };
+      update();
+    });
+  </script>
+  <script src="navbar.js"></script>
+</body>
+</html>
+

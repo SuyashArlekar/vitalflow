@@ -19,7 +19,7 @@
     }
 
     /* Navbar */
-    header {
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -256,22 +256,8 @@
 </head>
 
 <body>
-  <!-- Navbar -->
-  <header>
-    <div class="logo">🩸 BloodBank</div>
-    <nav>
-      <ul>
-        <li><a href="homepage.html">Home</a></li>
-        <li><a href="#">Donation Camps</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="nav-buttons">
-      <button class="btn-outline">Sign In</button>
-      <button class="btn-primary">Donate Now</button>
-    </div>
-  </header>
+  <!-- Navbar will be loaded here -->
+  <div id="navbar-placeholder"></div>
 
   <!-- Main Section -->
   <main>
@@ -378,5 +364,6 @@
       });
     });
   </script>
+  <script src="navbar.js"></script>
 </body>
 </html>

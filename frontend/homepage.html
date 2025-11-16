@@ -258,22 +258,8 @@
 </head>
 
 <body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="logo">🩸 BloodBank</div>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Donation Camps</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="nav-buttons">
-      <button class="btn-outline">Sign In</button>
-      <button class="btn-primary">Donate Now</button>
-    </div>
-  </header>
+  <!-- Navbar will be loaded here -->
+  <div id="navbar-placeholder"></div>
 
   <!-- Hero Section -->
   <section class="hero">
@@ -282,8 +268,8 @@
       <h1>Every Drop <span>Counts</span></h1>
       <p class="desc">Join our community of heroes. Manage donations, track inventory, and save lives through our comprehensive blood donation management system.</p>
       <div class="hero-buttons">
-        <button class="btn-primary">Become a Donor</button>
-        <button class="btn-outline">Find Camps Nearby</button>
+        <button class="btn-primary" onclick="window.location.href='register.html'">Become a Donor</button>
+        <button class="btn-outline" onclick="window.location.href='donationcamps.html'">Find Camps Nearby</button>
       </div>
     </div>
     <div class="hero-image">
@@ -403,5 +389,6 @@
       update();
     });
   </script>
+  <script src="navbar.js"></script>
 </body>
 </html>
