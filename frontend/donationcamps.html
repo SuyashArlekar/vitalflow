@@ -274,95 +274,135 @@
     <div class="stats">
       <div class="stat-card">
         <h3>Total Camps</h3>
-        <h2 id="totalCamps">5</h2>
+        <h2 id="totalCamps">0</h2>
       </div>
       <div class="stat-card">
-        <h3>Available Slots</h3>
-        <h2 id="availableSlots">170</h2>
+        <h3>Total Capacity</h3>
+        <h2 id="availableSlots">0</h2>
       </div>
       <div class="stat-card">
         <h3>This Month</h3>
-        <h2 id="thisMonth">5</h2>
+        <h2 id="thisMonth">0</h2>
       </div>
     </div>
 
-    <!-- Camp Cards -->
-    <div class="camp-card">
-      <div class="camp-header">
-        <h2>City Hospital Blood Drive</h2>
-        <span class="status">Upcoming</span>
-      </div>
-      <p>Organized by City Hospital</p>
-
-      <div class="camp-details">
-        <div class="detail">📅 <span><b>Date:</b> 2024-02-20</span></div>
-        <div class="detail">⏰ <span><b>Time:</b> 9:00 AM - 5:00 PM</span></div>
-        <div class="detail">📍 <span><b>Location:</b> Downtown Medical Center, 123 Main St</span></div>
-        <div class="detail">🩸 <span><b>Availability:</b> 45 / 50 slots</span></div>
-      </div>
-
-      <div class="camp-footer">
-        <div class="progress-container">
-          <div class="progress-bar" style="width: 10%;"></div>
-        </div>
-        <button class="btn-book" style="margin:10px;">Book Appointment</button>
-      </div>
-    </div>
-
-    <div class="camp-card">
-      <div class="camp-header">
-        <h2>Community Center Camp</h2>
-        <span class="status">Upcoming</span>
-      </div>
-      <p>Organized by Community Volunteers</p>
-
-      <div class="camp-details">
-        <div class="detail">📅 <span><b>Date:</b> 2024-03-10</span></div>
-        <div class="detail">⏰ <span><b>Time:</b> 10:00 AM - 4:00 PM</span></div>
-        <div class="detail">📍 <span><b>Location:</b> Riverdale Hall, Block C</span></div>
-        <div class="detail">🩸 <span><b>Availability:</b> 35 / 40 slots</span></div>
-      </div>
-
-      <div class="camp-footer">
-        <div class="progress-container">
-          <div class="progress-bar" style="width: 12.5%;"></div>
-        </div>
-        <button class="btn-book" style="margin:10px;">Book Appointment</button>
-      </div>
+    <!-- Camp Cards (loaded from backend) -->
+    <div id="campCards">
+      <!-- Filled dynamically -->
     </div>
   </main>
 
   <script>
-    // Simple search functionality (filters camps by text)
     const searchInput = document.getElementById('searchInput');
-    const campCards = document.querySelectorAll('.camp-card');
+    const campCardsContainer = document.getElementById('campCards');
+    const totalCampsEl = document.getElementById('totalCamps');
+    const availableSlotsEl = document.getElementById('availableSlots');
+    const thisMonthEl = document.getElementById('thisMonth');
 
+    let allCamps = [];
+
+    function renderCamps(camps) {
+      if (!camps || camps.length === 0) {
+        campCardsContainer.innerHTML = '<p>No donation camps available right now.</p>';
+        return;
+      }
+
+      campCardsContainer.innerHTML = '';
+
+      camps.forEach(camp => {
+        const capacity = parseInt(camp.capacity || 0, 10);
+        const progress = Math.max(5, Math.min(100, (capacity > 0 ? (capacity / (capacity * 2)) * 100 : 10)));
+
+        const card = document.createElement('div');
+        card.className = 'camp-card';
+        card.innerHTML = `
+          <div class="camp-header">
+            <h2>${camp.title}</h2>
+            <span class="status">Upcoming</span>
+          </div>
+          <p>${camp.description || ''}</p>
+
+          <div class="camp-details">
+            <div class="detail">📅 <span><b>Date:</b> ${camp.date}</span></div>
+            <div class="detail">⏰ <span><b>Time:</b> ${camp.time}</span></div>
+            <div class="detail">📍 <span><b>Location:</b> ${camp.address}, ${camp.city}</span></div>
+            <div class="detail">🩸 <span><b>Capacity:</b> ${capacity}</span></div>
+          </div>
+
+          <div class="camp-footer">
+            <div class="progress-container">
+              <div class="progress-bar" style="width: ${progress}%;"></div>
+            </div>
+            <button class="btn-book" style="margin:10px;">Book Appointment</button>
+          </div>
+        `;
+        campCardsContainer.appendChild(card);
+      });
+    }
+
+    function updateStats(camps) {
+      const total = camps.length;
+      const totalCapacity = camps.reduce((sum, c) => sum + (parseInt(c.capacity || 0, 10) || 0), 0);
+
+      const now = new Date();
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+      const thisMonthCount = camps.filter(c => {
+        if (!c.date) return false;
+        const d = new Date(c.date);
+        return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+      }).length;
+
+      totalCampsEl.textContent = total;
+      availableSlotsEl.textContent = totalCapacity;
+      thisMonthEl.textContent = thisMonthCount;
+    }
+
+    async function loadCamps() {
+      try {
+        const res = await fetch('../backend/get_camps.php');
+        const text = await res.text();
+
+        let data;
+        try {
+          data = text ? JSON.parse(text) : [];
+        } catch (parseErr) {
+          console.error('Failed to parse camps JSON. Raw response:', text);
+          throw new Error(
+            'Server returned an unexpected response. ' +
+            'Check PHP errors or database configuration.\n' +
+            text.substring(0, 200)
+          );
+        }
+
+        allCamps = Array.isArray(data) ? data : [];
+        renderCamps(allCamps);
+        updateStats(allCamps);
+      } catch (err) {
+        console.error('Error loading camps:', err);
+        campCardsContainer.innerHTML =
+          '<p style="color:red; white-space:pre-line;">Failed to load donation camps.\\n' +
+          (err.message || '') +
+          '</p>';
+      }
+    }
+
+    // Search filter
     searchInput.addEventListener('input', () => {
-      const searchValue = searchInput.value.toLowerCase();
-      campCards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(searchValue) ? 'block' : 'none';
+      const term = searchInput.value.toLowerCase();
+      const filtered = allCamps.filter(camp => {
+        const text = `
+          ${camp.title || ''} 
+          ${camp.description || ''} 
+          ${camp.address || ''} 
+          ${camp.city || ''}
+        `.toLowerCase();
+        return text.includes(term);
       });
+      renderCamps(filtered);
     });
 
-    // Animate available slots
-    window.addEventListener("load", () => {
-      const counters = document.querySelectorAll(".stat-card h2");
-      counters.forEach(counter => {
-        let count = 0;
-        const target = +counter.textContent;
-        const update = () => {
-          if (count < target) {
-            count += Math.ceil(target / 100);
-            counter.textContent = count;
-            requestAnimationFrame(update);
-          } else {
-            counter.textContent = target;
-          }
-        };
-        update();
-      });
-    });
+    window.addEventListener('load', loadCamps);
   </script>
   <script src="navbar.js"></script>
 </body>
