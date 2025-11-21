@@ -1,3 +1,4 @@
+--Table for users
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   role VARCHAR(50) NOT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE registrations (
 );
 
 
-
+--Table for contact messages
 CREATE TABLE contact_messages (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   full_name VARCHAR(150) NOT NULL,
