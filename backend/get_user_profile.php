@@ -34,17 +34,19 @@ if ($conn->connect_error) {
 
 // Get user details from database
 $email = $_SESSION['email'];
-$stmt = $conn->prepare("SELECT full_name, email, phone, role FROM users WHERE email = ?");
+$stmt = $conn->prepare("SELECT id, full_name, email, phone, role FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
+    $userId = intval($user['id']);
     
     // Get donation statistics (if donations table exists)
     $donations_data = ['total_donations' => 0, 'total_volume' => 0, 'last_donation' => null];
     $history = [];
+    $appointments = [];
     
     // Check if donations table exists
     $table_check = $conn->query("SHOW TABLES LIKE 'donations'");
@@ -74,6 +76,23 @@ if ($result->num_rows > 0) {
             }
             $history_stmt->close();
         }
+    }
+
+    // Upcoming appointments from registrations
+    $appointments_query = "SELECT r.reg_id, r.status, r.registered_at, c.title, c.date, c.time, c.address, c.city
+                           FROM registrations r
+                           INNER JOIN camps c ON r.camp_id = c.camp_id
+                           WHERE r.user_id = ?
+                           ORDER BY c.date ASC, c.time ASC";
+    $appointments_stmt = $conn->prepare($appointments_query);
+    if ($appointments_stmt) {
+        $appointments_stmt->bind_param("i", $userId);
+        $appointments_stmt->execute();
+        $appointments_result = $appointments_stmt->get_result();
+        while ($row = $appointments_result->fetch_assoc()) {
+            $appointments[] = $row;
+        }
+        $appointments_stmt->close();
     }
     
     // Calculate next eligible date (90 days after last donation)
@@ -108,7 +127,8 @@ if ($result->num_rows > 0) {
             'last_donation' => $donations_data['last_donation'] ?? null,
             'next_eligible' => $next_eligible
         ],
-        'donation_history' => $history
+        'donation_history' => $history,
+        'appointments' => $appointments
     ];
     
     header('Content-Type: application/json');

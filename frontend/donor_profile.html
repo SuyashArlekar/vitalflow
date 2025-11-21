@@ -228,6 +228,130 @@
       margin-top: 0.5rem;
     }
 
+    .appointments {
+      margin-top: 2rem;
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .appointments h3 {
+      margin-top: 0;
+      color: #111827;
+    }
+
+    .appointment-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .appointment-card strong {
+      font-size: 1rem;
+      color: #b91c1c;
+    }
+
+    .appointment-meta {
+      color: #4b5563;
+      font-size: 0.9rem;
+    }
+
+    .appointment-status {
+      align-self: flex-start;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .appointment-empty {
+      color: #6b7280;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Edit Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 1rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .modal h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #111827;
+    }
+
+    .modal label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #374151;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .modal input:disabled {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .btn-secondary {
+      border: 1px solid #d1d5db;
+      background: #fff;
+      color: #374151;
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #f3f4f6;
+    }
+
     @media (max-width: 600px) {
       header {
         flex-direction: column;
@@ -248,16 +372,6 @@
   <header>
     <div class="logo">
       <div class="icon">💧</div>
-      BloodBank
-    </div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Donation Camps</a>
-      <a href="#">Profile</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
-    <div>
       <button class="btn" onclick="window.location.href='donationcamps.html'">Donate Now</button>
     </div>
   </header>
@@ -303,6 +417,14 @@
       </div>
     </div>
 
+    <!-- Upcoming Appointments -->
+    <div class="appointments">
+      <h3>🩺 Upcoming Appointments</h3>
+      <div id="appointments-list">
+        <p class="appointment-empty">No appointments booked yet.</p>
+      </div>
+    </div>
+
     <!-- Donation History -->
     <div class="history">
       <h3>❤️ Complete Donation History</h3>
@@ -331,6 +453,80 @@
   </section>
 
   <script>
+    const DEFAULT_DONATION_VOLUME = 350;
+    let currentUserSnapshot = null;
+
+    const isValidDate = (value) => {
+      if (!value) return false;
+      const dateObj = value instanceof Date ? value : new Date(value);
+      return !Number.isNaN(dateObj.valueOf());
+    };
+
+    const formatDisplayDate = (value) => {
+      if (!isValidDate(value)) return 'N/A';
+      const dateObj = value instanceof Date ? value : new Date(value);
+      return dateObj.toLocaleDateString();
+    };
+
+    const calculateNextEligible = (lastDonationDate) => {
+      if (!isValidDate(lastDonationDate)) return 'N/A';
+      const dateObj = lastDonationDate instanceof Date ? new Date(lastDonationDate) : new Date(lastDonationDate);
+      dateObj.setDate(dateObj.getDate() + 90);
+      return dateObj.toISOString().split('T')[0];
+    };
+
+    const buildCombinedEntries = (history = [], appointments = []) => {
+      const combined = [];
+
+      history.forEach(donation => {
+        combined.push({
+          date: donation.donation_date || donation.date || null,
+          volume: parseInt(donation.volume, 10) || DEFAULT_DONATION_VOLUME
+        });
+      });
+
+      appointments.forEach(appt => {
+        combined.push({
+          date: appt.date || null,
+          volume: DEFAULT_DONATION_VOLUME
+        });
+      });
+
+      return combined;
+    };
+
+    const updateStatsFromEntries = (statCards, combinedEntries = [], fallbackStats = {}) => {
+      if (!statCards || statCards.length < 5) return;
+
+      if (!combinedEntries.length) {
+        statCards[0].querySelector('h3').textContent = fallbackStats.total_donations || 0;
+        statCards[1].querySelector('h3').textContent = fallbackStats.lives_impacted || 0;
+        statCards[2].querySelector('h3').textContent = `${fallbackStats.total_volume || 0} ml`;
+        statCards[3].querySelector('h3').textContent = fallbackStats.last_donation || 'N/A';
+        statCards[4].querySelector('h3').textContent = fallbackStats.next_eligible || 'N/A';
+        return;
+      }
+
+      const totalDonations = combinedEntries.length;
+      const totalVolume = combinedEntries.reduce((sum, entry) => sum + (entry.volume || DEFAULT_DONATION_VOLUME), 0);
+      const livesImpacted = totalDonations * 3;
+
+      const validDates = combinedEntries
+        .map(entry => entry.date)
+        .filter(dateVal => isValidDate(dateVal))
+        .map(dateVal => new Date(dateVal).getTime());
+
+      const lastDonationTimestamp = validDates.length ? Math.max(...validDates) : null;
+      const lastDonationDate = lastDonationTimestamp ? new Date(lastDonationTimestamp) : null;
+      const nextEligible = calculateNextEligible(lastDonationDate);
+
+      statCards[0].querySelector('h3').textContent = totalDonations;
+      statCards[1].querySelector('h3').textContent = livesImpacted;
+      statCards[2].querySelector('h3').textContent = `${totalVolume} ml`;
+      statCards[3].querySelector('h3').textContent = formatDisplayDate(lastDonationDate);
+      statCards[4].querySelector('h3').textContent = nextEligible;
+    };
+
     // Fetch and display user profile data
     async function loadUserProfile() {
       try {
@@ -352,8 +548,11 @@
 
         if (data.success && data.user) {
           const user = data.user;
+          currentUserSnapshot = user;
           const stats = data.stats || {};
           const history = data.donation_history || [];
+          const appointments = data.appointments || [];
+          const combinedEntries = buildCombinedEntries(history, appointments);
 
           // Update profile header
           document.querySelector('.avatar').textContent = user.initials || 'U';
@@ -369,13 +568,13 @@
 
           // Update stats
           const statCards = document.querySelectorAll('.stat-card');
-          if (statCards.length >= 5) {
-            statCards[0].querySelector('h3').textContent = stats.total_donations || 0;
-            statCards[1].querySelector('h3').textContent = stats.lives_impacted || 0;
-            statCards[2].querySelector('h3').textContent = (stats.total_volume || 0) + ' ml';
-            statCards[3].querySelector('h3').textContent = stats.last_donation || 'N/A';
-            statCards[4].querySelector('h3').textContent = stats.next_eligible || 'N/A';
-          }
+          updateStatsFromEntries(statCards, combinedEntries, {
+            total_donations: stats.total_donations || 0,
+            lives_impacted: stats.lives_impacted || 0,
+            total_volume: stats.total_volume || 0,
+            last_donation: stats.last_donation || 'N/A',
+            next_eligible: stats.next_eligible || 'N/A'
+          });
 
           // Update donation history
           const historySection = document.querySelector('.history');
@@ -397,11 +596,36 @@
             });
             historySection.innerHTML = historyHTML;
           } else {
+            const hasAnyEntries = combinedEntries.length > 0;
             historySection.innerHTML = `
               <h3>❤️ Complete Donation History</h3>
-              <p>You haven't made any donations yet. Start your journey today!</p>
+              ${hasAnyEntries ? '' : '<p>You haven\'t made any donations yet. Start your journey today!</p>'}
             `;
           }
+
+          // Update appointments
+          const appointmentList = document.getElementById('appointments-list');
+          if (appointmentList) {
+            if (appointments.length === 0) {
+              appointmentList.innerHTML = '<p class="appointment-empty">No appointments booked yet. Explore upcoming camps to schedule one.</p>';
+            } else {
+              appointmentList.innerHTML = appointments.map(appt => {
+                const dateStr = appt.date ? new Date(appt.date).toLocaleDateString() : 'Date TBD';
+                const timeStr = appt.time || 'Time TBD';
+                const location = [appt.address, appt.city].filter(Boolean).join(', ');
+                return `
+                  <div class="appointment-card">
+                    <strong>${appt.title || 'Donation Camp'}</strong>
+                    <span class="appointment-status">${appt.status || 'registered'}</span>
+                    <p class="appointment-meta">📅 ${dateStr} • ⏰ ${timeStr}</p>
+                    <p class="appointment-meta">📍 ${location || 'Location TBD'}</p>
+                  </div>
+                `;
+              }).join('');
+            }
+          }
+
+          populateEditForm();
         }
       } catch (error) {
         console.error('Error loading profile:', error);
@@ -409,8 +633,120 @@
       }
     }
 
+    function toggleEditModal(show = false) {
+      const modal = document.getElementById('profile-edit-modal');
+      if (modal) {
+        if (show) {
+          modal.classList.add('open');
+        } else {
+          modal.classList.remove('open');
+        }
+      }
+    }
+
+    function populateEditForm() {
+      const form = document.getElementById('profile-edit-form');
+      if (!form || !currentUserSnapshot) return;
+      form.full_name.value = currentUserSnapshot.full_name || '';
+      form.email.value = currentUserSnapshot.email || '';
+      form.phone.value = currentUserSnapshot.phone || '';
+    }
+
+    async function handleProfileUpdate(event) {
+      event.preventDefault();
+      const form = event.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      const formData = new FormData();
+      formData.append('full_name', form.full_name.value.trim());
+      formData.append('phone', form.phone.value.trim());
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Saving...';
+      }
+
+      try {
+        const response = await fetch('../backend/update_user_profile.php', {
+          method: 'POST',
+          body: formData,
+          credentials: 'include'
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'Unable to update profile');
+        }
+
+        alert(data.message || 'Profile updated successfully');
+        toggleEditModal(false);
+        await loadUserProfile();
+      } catch (error) {
+        console.error('Profile update error:', error);
+        alert(error.message || 'Failed to update profile. Please try again.');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Save Changes';
+        }
+      }
+    }
+
     // Load profile when page loads
-    document.addEventListener('DOMContentLoaded', loadUserProfile);
+    document.addEventListener('DOMContentLoaded', () => {
+      const editBtn = document.querySelector('.edit-btn');
+      const modalOverlay = document.getElementById('profile-edit-modal');
+      const cancelBtn = document.getElementById('cancel-edit-btn');
+      const form = document.getElementById('profile-edit-form');
+
+      if (editBtn) {
+        editBtn.addEventListener('click', () => {
+          populateEditForm();
+          toggleEditModal(true);
+        });
+      }
+
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => toggleEditModal(false));
+      }
+
+      if (modalOverlay) {
+        modalOverlay.addEventListener('click', (event) => {
+          if (event.target === modalOverlay) {
+            toggleEditModal(false);
+          }
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', handleProfileUpdate);
+      }
+
+      loadUserProfile();
+    });
   </script>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal-overlay" id="profile-edit-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h3>Edit Profile</h3>
+      <form id="profile-edit-form">
+        <label for="edit-full-name">Full Name</label>
+        <input id="edit-full-name" name="full_name" type="text" required />
+
+        <label for="edit-email">Email</label>
+        <input id="edit-email" name="email" type="email" disabled />
+
+        <label for="edit-phone">Phone Number</label>
+        <input id="edit-phone" name="phone" type="tel" placeholder="+91 0000000000" />
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancel-edit-btn">Cancel</button>
+          <button type="submit" class="btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

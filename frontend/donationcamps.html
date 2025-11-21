@@ -333,10 +333,15 @@
             <div class="progress-container">
               <div class="progress-bar" style="width: ${progress}%;"></div>
             </div>
-            <button class="btn-book" style="margin:10px;">Book Appointment</button>
+            <button class="btn-book" style="margin:10px;" data-camp-id="${camp.camp_id}">Book Appointment</button>
           </div>
         `;
         campCardsContainer.appendChild(card);
+
+        const bookBtn = card.querySelector('.btn-book');
+        if (bookBtn) {
+          bookBtn.addEventListener('click', () => bookAppointment(camp.camp_id, bookBtn));
+        }
       });
     }
 
@@ -384,6 +389,44 @@
           '<p style="color:red; white-space:pre-line;">Failed to load donation camps.\\n' +
           (err.message || '') +
           '</p>';
+      }
+    }
+
+    async function bookAppointment(campId, buttonEl) {
+      if (!campId) return;
+
+      if (buttonEl) {
+        buttonEl.disabled = true;
+        buttonEl.textContent = 'Booking...';
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append('camp_id', campId);
+
+        const response = await fetch('../backend/book_appointment.php', {
+          method: 'POST',
+          body: formData,
+          credentials: 'include'
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'Failed to book appointment');
+        }
+
+        alert(data.message || 'Appointment booked successfully');
+        if (buttonEl) {
+          buttonEl.textContent = 'Booked';
+        }
+      } catch (error) {
+        console.error('Booking error:', error);
+        alert(error.message || 'Unable to book appointment. Please try again.');
+        if (buttonEl) {
+          buttonEl.disabled = false;
+          buttonEl.textContent = 'Book Appointment';
+        }
       }
     }
 
