@@ -1,260 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BloodBank | Every Drop Counts</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
 
-    body {
-      color: #222;
-      background: #fff;
-      line-height: 1.6;
-    }
-
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 5%;
-      background: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #d81b60;
-    }
-
-    .navbar ul {
-      display: flex;
-      list-style: none;
-      gap: 1.5rem;
-    }
-
-    .navbar a {
-      text-decoration: none;
-      color: #333;
-      transition: 0.3s;
-    }
-
-    .navbar a:hover {
-      color: #d81b60;
-    }
-
-    .btn-primary, .btn-outline {
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 25px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .btn-primary {
-      background: #d81b60;
-      color: white;
-    }
-
-    .btn-outline {
-      background: white;
-      color: #d81b60;
-      border: 2px solid #d81b60;
-    }
-
-    .btn-outline:hover {
-      background: #d81b60;
-      color: white;
-    }
-
-    /* Hero Section */
-    .hero {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 4rem 5%;
-      flex-wrap: wrap;
-      background: #fff;
-    }
-
-    .hero-content {
-      max-width: 50%;
-    }
-
-    .hero-content h1 {
-      font-size: 3rem;
-      margin: 1rem 0;
-    }
-
-    .hero-content h1 span {
-      color: #d81b60;
-    }
-
-    .hero-content .desc {
-      margin-bottom: 1.5rem;
-      color: #555;
-    }
-
-    .hero-image img {
-      width: 400px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
-
-    /* Stats */
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      padding: 2rem 5%;
-      background: #f9f9f9;
-      flex-wrap: wrap;
-    }
-
-    .stats div {
-      text-align: center;
-      margin: 1rem;
-    }
-
-    .stats h2 {
-      color: #d81b60;
-      font-size: 2rem;
-    }
-
-    /* Features */
-    .features {
-      text-align: center;
-      padding: 4rem 5%;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      transition: transform 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    /* How It Works */
-    .how {
-      text-align: center;
-      padding: 4rem 5%;
-      background: #f9f9f9;
-    }
-
-    .steps {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-    }
-
-    .step {
-      width: 250px;
-    }
-
-    .circle {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: #d81b60;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto 1rem;
-      font-weight: bold;
-    }
-
-    .circle.blue { background: #1976d2; }
-    .circle.green { background: #388e3c; }
-
-    /* CTA */
-    .cta {
-      text-align: center;
-      padding: 3rem 5%;
-      background: linear-gradient(90deg, #d81b60, #1976d2);
-      color: white;
-      border-radius: 12px;
-      margin: 3rem 5%;
-    }
-
-    .cta button {
-      margin: 1rem;
-    }
-
-    /* Footer */
-    footer {
-      background: #f2f2f2;
-      padding: 2rem 5%;
-    }
-
-    .footer-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .footer-links ul {
-      list-style: none;
-    }
-
-    .footer-links li {
-      margin: 0.3rem 0;
-    }
-
-    .footer-links h4 {
-      margin-bottom: 0.5rem;
-    }
-
-    .copyright {
-      text-align: center;
-      color: #555;
-      font-size: 0.9rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
-      }
-      .hero-content {
-        max-width: 100%;
-      }
-      .hero-image img {
-        width: 100%;
-        margin-top: 2rem;
-      }
-      .navbar ul {
-        display: none;
-      }
-    }
-  </style>
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
@@ -263,46 +20,61 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-content">
+    <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
       <p class="tagline">❤️ Save Lives, Donate Blood</p>
       <h1>Every Drop <span>Counts</span></h1>
-      <p class="desc">Join our community of heroes. Manage donations, track inventory, and save lives through our comprehensive blood donation management system.</p>
+      <p class="desc">Join our community of heroes. Manage donations, track inventory, and save lives through our
+        comprehensive blood donation management system.</p>
       <div class="hero-buttons">
         <button class="btn-primary" onclick="window.location.href='register.html'">Become a Donor</button>
         <button class="btn-outline" onclick="window.location.href='donationcamps.html'">Find Camps Nearby</button>
       </div>
     </div>
-    <div class="hero-image">
-      <img src="https://img.freepik.com/free-photo/group-people-donating-blood_23-2149272054.jpg" alt="Blood donation" />
+    <div class="hero-image" data-aos="fade-left" data-aos-duration="1000">
+      <img src="https://img.freepik.com/free-photo/group-people-donating-blood_23-2149272054.jpg"
+        alt="Blood donation" />
     </div>
   </section>
 
   <!-- Stats -->
-  <section class="stats">
-    <div><h2>10000+</h2><p>Active Donors</p></div>
-    <div><h2>500+</h2><p>Blood Units Available</p></div>
-    <div><h2>200+</h2><p>Hospitals Connected</p></div>
-    <div><h2>50+</h2><p>Lives Saved Daily</p></div>
+  <section class="stats" data-aos="fade-up" data-aos-offset="100">
+    <div>
+      <h2>10000+</h2>
+      <p>Active Donors</p>
+    </div>
+    <div>
+      <h2>500+</h2>
+      <p>Blood Units Available</p>
+    </div>
+    <div>
+      <h2>200+</h2>
+      <p>Hospitals Connected</p>
+    </div>
+    <div>
+      <h2>50+</h2>
+      <p>Lives Saved Daily</p>
+    </div>
   </section>
 
   <!-- Features -->
   <section class="features">
-    <h2>Comprehensive Blood Management</h2>
-    <p>Everything you need to manage blood donations efficiently and save more lives</p>
+    <h2 data-aos="fade-up">Comprehensive Blood Management</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Everything you need to manage blood donations efficiently and save more
+      lives</p>
     <div class="feature-grid">
-      <div class="card">
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
         <h3>🧑‍⚕️ Multi-Role Access</h3>
         <p>Separate dashboards for Donors, Hospitals, and Staff with role-based permissions.</p>
       </div>
-      <div class="card">
+      <div class="card" data-aos="fade-up" data-aos-delay="200">
         <h3>📅 Donation Camps</h3>
         <p>Schedule and manage blood donation camps with easy appointment booking.</p>
       </div>
-      <div class="card">
+      <div class="card" data-aos="fade-up" data-aos-delay="300">
         <h3>📦 Inventory Management</h3>
         <p>Real-time tracking of blood units with status updates and availability.</p>
       </div>
-      <div class="card">
+      <div class="card" data-aos="fade-up" data-aos-delay="400">
         <h3>💌 Request System</h3>
         <p>Hospitals can request specific blood types with instant processing.</p>
       </div>
@@ -311,20 +83,20 @@
 
   <!-- How it works -->
   <section class="how">
-    <h2>How It Works</h2>
-    <p>Simple steps to start saving lives</p>
+    <h2 data-aos="fade-up">How It Works</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Simple steps to start saving lives</p>
     <div class="steps">
-      <div class="step">
+      <div class="step" data-aos="zoom-in" data-aos-delay="100">
         <div class="circle">1</div>
         <h3>Register</h3>
         <p>Create your account as a Donor, Hospital, or Staff member.</p>
       </div>
-      <div class="step">
+      <div class="step" data-aos="zoom-in" data-aos-delay="200">
         <div class="circle blue">2</div>
         <h3>Connect</h3>
         <p>Find nearby donation camps or request blood for your hospital.</p>
       </div>
-      <div class="step">
+      <div class="step" data-aos="zoom-in" data-aos-delay="300">
         <div class="circle green">3</div>
         <h3>Save Lives</h3>
         <p>Donate blood and help patients in need across the network.</p>
@@ -333,7 +105,7 @@
   </section>
 
   <!-- CTA -->
-  <section class="cta">
+  <section class="cta" data-aos="flip-up">
     <h2>Ready to Make a Difference?</h2>
     <p>Join thousands of donors and healthcare providers in our mission to save lives.</p>
     <div>
@@ -352,26 +124,35 @@
       <div class="footer-links">
         <h4>Quick Links</h4>
         <ul>
-          <li>Home</li>
-          <li>Donation Camps</li>
-          <li>About</li>
-          <li>Contact</li>
+          <li><a href="homepage.html">Home</a></li>
+          <li><a href="donationcamps.html">Donation Camps</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact_page.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-links">
         <h4>Resources</h4>
         <ul>
-          <li>Blood Types Guide</li>
-          <li>Donation FAQs</li>
-          <li>Health Requirements</li>
-          <li>Privacy Policy</li>
+          <li><a href="#">Blood Types Guide</a></li>
+          <li><a href="#">Donation FAQs</a></li>
+          <li><a href="#">Health Requirements</a></li>
+          <li><a href="#">Privacy Policy</a></li>
         </ul>
       </div>
     </div>
     <p class="copyright">© 2025 BloodBank Management System. All rights reserved.</p>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
+    AOS.init({
+      once: true,
+      offset: 100,
+      duration: 800,
+      easing: 'ease-out-cubic',
+    });
+
     // Animated counters in the stats section
     const counters = document.querySelectorAll(".stats h2");
     counters.forEach(counter => {
@@ -391,4 +172,5 @@
   </script>
   <script src="navbar.js"></script>
 </body>
+
 </html>

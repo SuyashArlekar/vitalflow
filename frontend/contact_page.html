@@ -1,368 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us | BloodBank</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
 
-    body {
-      color: #222;
-      background: #fff;
-      line-height: 1.6;
-    }
-
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 5%;
-      background: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #d81b60;
-    }
-
-    .navbar ul {
-      display: flex;
-      list-style: none;
-      gap: 1.5rem;
-    }
-
-    .navbar a {
-      text-decoration: none;
-      color: #333;
-      transition: 0.3s;
-    }
-
-    .navbar a:hover {
-      color: #d81b60;
-    }
-
-    .btn-primary, .btn-outline {
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 25px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .btn-primary {
-      background: #d81b60;
-      color: white;
-    }
-
-    .btn-outline {
-      background: white;
-      color: #d81b60;
-      border: 2px solid #d81b60;
-    }
-
-    .btn-outline:hover {
-      background: #d81b60;
-      color: white;
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, #d81b60 0%, #1976d2 100%);
-      color: white;
-      padding: 3rem 5%;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    /* Main Content */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 4rem 5%;
-    }
-
-    .contact-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 2rem;
-    }
-
-    /* Contact Form */
-    .contact-form {
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .contact-form h2 {
-      color: #d81b60;
-      margin-bottom: 1.5rem;
-      font-size: 2rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #333;
-      font-weight: 600;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 0.8rem;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: #d81b60;
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .btn-submit {
-      background: linear-gradient(90deg, #d81b60, #1976d2);
-      color: white;
-      border: none;
-      padding: 0.8rem 2rem;
-      border-radius: 25px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.3s;
-      width: 100%;
-    }
-
-    .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(216, 27, 96, 0.3);
-    }
-
-    .form-status {
-      margin-top: 1rem;
-      padding: 0.9rem 1rem;
-      border-radius: 10px;
-      font-weight: 600;
-      text-align: center;
-      display: none;
-    }
-
-    .form-status.success {
-      background: rgba(56, 142, 60, 0.12);
-      color: #2e7d32;
-      border: 1px solid rgba(46, 125, 50, 0.4);
-    }
-
-    .form-status.error {
-      background: rgba(216, 27, 96, 0.12);
-      color: #c62828;
-      border: 1px solid rgba(198, 40, 40, 0.4);
-    }
-
-    /* Contact Info */
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .info-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-
-    .info-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .info-card h3 {
-      color: #d81b60;
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .info-card p {
-      color: #666;
-      margin-bottom: 0.5rem;
-      line-height: 1.8;
-    }
-
-    .info-card a {
-      color: #d81b60;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .info-card a:hover {
-      color: #1976d2;
-    }
-
-    /* Office Hours */
-    .hours-list {
-      list-style: none;
-      margin-top: 1rem;
-    }
-
-    .hours-list li {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #eee;
-      color: #666;
-    }
-
-    .hours-list li:last-child {
-      border-bottom: none;
-    }
-
-    .hours-list .day {
-      font-weight: 600;
-      color: #333;
-    }
-
-    /* Social Media */
-    .social-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .social-links a {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #d81b60;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: transform 0.3s;
-      font-size: 1.2rem;
-    }
-
-    .social-links a:hover {
-      transform: scale(1.1);
-      background: #1976d2;
-    }
-
-    /* Map Section */
-    .map-section {
-      margin-top: 3rem;
-      background: #f9f9f9;
-      padding: 2rem;
-      border-radius: 15px;
-    }
-
-    .map-section h2 {
-      color: #d81b60;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .map-placeholder {
-      width: 100%;
-      height: 400px;
-      background: #e0e0e0;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #666;
-      font-size: 1.1rem;
-    }
-
-    /* Footer */
-    footer {
-      background: #f2f2f2;
-      padding: 2rem 5%;
-      margin-top: 4rem;
-    }
-
-    .footer-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .footer-links ul {
-      list-style: none;
-    }
-
-    .footer-links li {
-      margin: 0.3rem 0;
-    }
-
-    .footer-links h4 {
-      margin-bottom: 0.5rem;
-    }
-
-    .copyright {
-      text-align: center;
-      color: #555;
-      font-size: 0.9rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .contact-wrapper {
-        grid-template-columns: 1fr;
-      }
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .navbar ul {
-        display: none;
-      }
-    }
-  </style>
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
@@ -370,18 +19,21 @@
   <div id="navbar-placeholder"></div>
 
   <!-- Hero Section -->
-  <section class="hero">
-    <h1>Get In Touch</h1>
-    <p>We're here to help! Reach out to us for any questions, concerns, or support you may need.</p>
+  <section class="hero" style="min-height: 50vh; padding-top: 4rem;">
+    <div class="hero-content" style="max-width: 800px; margin: 0 auto; text-align: center;" data-aos="fade-down">
+      <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Get In <span>Touch</span></h1>
+      <p class="desc">We're here to help! Reach out to us for any questions, concerns, or support you may need.</p>
+    </div>
   </section>
 
   <!-- Main Content -->
-  <div class="container">
+  <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 5% 4rem;">
     <div class="contact-wrapper">
       <!-- Contact Form -->
-      <div class="contact-form">
+      <div class="contact-form" data-aos="fade-right">
         <h2>Send Us a Message</h2>
-        <form id="contactForm" onsubmit="handleSubmit(event)" method="POST" action="../backend/contact_submit.php" novalidate>
+        <form id="contactForm" onsubmit="handleSubmit(event)" method="POST" action="../backend/contact_submit.php"
+          novalidate>
           <div class="form-group">
             <label for="name">Full Name *</label>
             <input type="text" id="name" name="name" required placeholder="Enter your full name">
@@ -411,44 +63,46 @@
 
           <div class="form-group">
             <label for="message">Message *</label>
-            <textarea id="message" name="message" required placeholder="Tell us how we can help you..."></textarea>
+            <textarea id="message" name="message" required placeholder="Tell us how we can help you..."
+              style="min-height: 150px; resize: vertical;"></textarea>
           </div>
 
           <button type="submit" class="btn-submit">Send Message</button>
         </form>
-        <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+        <div id="formStatus" class="form-status" role="status" aria-live="polite"
+          style="margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none;"></div>
       </div>
 
       <!-- Contact Information -->
       <div class="contact-info">
-        <div class="info-card">
+        <div class="info-card" data-aos="fade-left" data-aos-delay="100">
           <h3>📍 Address</h3>
           <p>
             <strong>BloodBank Headquarters</strong><br>
-            123 Medical Center Drive<br>
-            Suite 500<br>
-            Healthcare District, City 12345<br>
-            United States
+            Padre Conceicao College of Engineering<br>
+            Verna<br>
+            Goa-403713<br>
+            India
           </p>
         </div>
 
-        <div class="info-card">
+        <div class="info-card" data-aos="fade-left" data-aos-delay="200">
           <h3>📞 Phone</h3>
           <p>
             <strong>Main Office:</strong><br>
-            <a href="tel:+15551234567">+1 (555) 123-4567</a>
+            <a href="tel:+15551234567">+91 7020972582</a>
           </p>
           <p>
             <strong>Emergency Hotline:</strong><br>
-            <a href="tel:+15551234568">+1 (555) 123-4568</a>
+            <a href="tel:+15551234568">+91 9175651285</a>
           </p>
           <p>
             <strong>Donor Support:</strong><br>
-            <a href="tel:+15551234569">+1 (555) 123-4569</a>
+            <a href="tel:+15551234569">+91 1234567890</a>
           </p>
         </div>
 
-        <div class="info-card">
+        <div class="info-card" data-aos="fade-left" data-aos-delay="300">
           <h3>✉️ Email</h3>
           <p>
             <strong>General Inquiries:</strong><br>
@@ -464,32 +118,35 @@
           </p>
         </div>
 
-        <div class="info-card">
+        <div class="info-card" data-aos="fade-left" data-aos-delay="400">
           <h3>🕒 Office Hours</h3>
-          <ul class="hours-list">
-            <li>
-              <span class="day">Monday - Friday</span>
+          <ul class="hours-list" style="list-style: none; margin-top: 0.5rem;">
+            <li
+              style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+              <span class="day" style="font-weight: 600;">Monday - Friday</span>
               <span>8:00 AM - 6:00 PM</span>
             </li>
-            <li>
-              <span class="day">Saturday</span>
+            <li
+              style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+              <span class="day" style="font-weight: 600;">Saturday</span>
               <span>9:00 AM - 4:00 PM</span>
             </li>
-            <li>
-              <span class="day">Sunday</span>
+            <li
+              style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+              <span class="day" style="font-weight: 600;">Sunday</span>
               <span>Closed</span>
             </li>
-            <li>
-              <span class="day">Emergency Hotline</span>
+            <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+              <span class="day" style="font-weight: 600;">Emergency Hotline</span>
               <span>24/7 Available</span>
             </li>
           </ul>
         </div>
 
-        <div class="info-card">
+        <div class="info-card" data-aos="fade-left" data-aos-delay="500">
           <h3>🌐 Follow Us</h3>
           <p>Stay connected with us on social media for updates, news, and community events.</p>
-          <div class="social-links">
+          <div class="social-links" style="margin-top: 1rem; display: flex; gap: 1rem;">
             <a href="#" title="Facebook">📘</a>
             <a href="#" title="Twitter">🐦</a>
             <a href="#" title="Instagram">📷</a>
@@ -499,7 +156,7 @@
         </div>
       </div>
     </div>
-
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -511,26 +168,35 @@
       <div class="footer-links">
         <h4>Quick Links</h4>
         <ul>
-          <li><a href="homepage.html" style="color: #555; text-decoration: none;">Home</a></li>
-          <li><a href="donationcamps.html" style="color: #555; text-decoration: none;">Donation Camps</a></li>
-          <li><a href="about.html" style="color: #555; text-decoration: none;">About</a></li>
-          <li><a href="contact_page.html" style="color: #555; text-decoration: none;">Contact</a></li>
+          <li><a href="homepage.html">Home</a></li>
+          <li><a href="donationcamps.html">Donation Camps</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact_page.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-links">
         <h4>Resources</h4>
         <ul>
-          <li>Blood Types Guide</li>
-          <li>Donation FAQs</li>
-          <li>Health Requirements</li>
-          <li>Privacy Policy</li>
+          <li><a href="#">Blood Types Guide</a></li>
+          <li><a href="#">Donation FAQs</a></li>
+          <li><a href="#">Health Requirements</a></li>
+          <li><a href="#">Privacy Policy</a></li>
         </ul>
       </div>
     </div>
     <p class="copyright">© 2025 BloodBank Management System. All rights reserved.</p>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
+    AOS.init({
+      once: true,
+      offset: 100,
+      duration: 800,
+      easing: 'ease-out-cubic',
+    });
+
     const form = document.getElementById('contactForm');
     const statusBox = document.getElementById('formStatus');
 
@@ -567,17 +233,21 @@
         }
 
         statusBox.textContent = data.message || 'Your message has been sent successfully!';
-        statusBox.classList.add('success');
+        statusBox.style.backgroundColor = 'rgba(56, 142, 60, 0.12)';
+        statusBox.style.color = '#2e7d32';
+        statusBox.style.border = '1px solid rgba(46, 125, 50, 0.4)';
         statusBox.style.display = 'block';
         form.reset();
       } catch (error) {
         statusBox.textContent = error.message;
-        statusBox.classList.add('error');
+        statusBox.style.backgroundColor = 'rgba(216, 27, 96, 0.12)';
+        statusBox.style.color = '#c62828';
+        statusBox.style.border = '1px solid rgba(198, 40, 40, 0.4)';
         statusBox.style.display = 'block';
       }
     }
   </script>
   <script src="navbar.js"></script>
 </body>
-</html>
 
+</html>

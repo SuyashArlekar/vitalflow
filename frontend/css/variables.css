@@ -1,0 +1,40 @@
+:root {
+  /* Color Palette */
+  --primary-color: #d81b60;
+  --primary-gradient: linear-gradient(135deg, #d81b60 0%, #ff4b2b 100%);
+  --secondary-color: #1976d2;
+  --secondary-gradient: linear-gradient(135deg, #1976d2 0%, #6dd5ed 100%);
+  --accent-color: #ff416c;
+
+  /* Neutral Colors */
+  --text-dark: #222222;
+  --text-light: #555555;
+  --text-white: #ffffff;
+  --bg-light: #f9f9f9;
+  --bg-white: #ffffff;
+  --border-color: #e0e0e0;
+
+  /* Typography */
+  --font-family: 'Outfit', 'Poppins', sans-serif;
+  --h1-size: 3.5rem;
+  --h2-size: 2.5rem;
+  --h3-size: 1.5rem;
+  --body-size: 1rem;
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 6rem;
+
+  /* Effects */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --radius-sm: 8px;
+  --radius-md: 15px;
+  --radius-lg: 25px;
+  --radius-full: 50px;
+  --transition: all 0.3s ease;
+}
