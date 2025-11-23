@@ -52,6 +52,7 @@ img {
     color: var(--primary-color);
     background: var(--primary-gradient);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -169,6 +170,7 @@ img {
 .hero-content h1 span {
     background: var(--primary-gradient);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
